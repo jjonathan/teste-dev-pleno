@@ -18,15 +18,35 @@ Desenvolver uma interface de api onde seja possível fazer inserções de vendas
 
 #### Vendedores
 - Criar vendedor
-- Listar todos os vendedores
-- Lançar nova venda para um vendedor
-- Listar todas as vendas de um vendedor
 
-#### Dados de retorno
+#### Retorno
+- Nome
+- Email
+
+- Listar todos os vendedores
+
+#### Retorno
+- Nome
+- Email
+- Comissão
+
+- Lançar nova venda para um vendedor
+
+#### Retorno
 - Nome
 - Email
 - Valor da venda
 - Comissão
+
+- Listar todas as vendas de um vendedor
+
+#### Retorno
+- Nome
+- Email
+- Valor da venda
+- Comissão
+
+
 
 > Não é necessário nenhuma forma de login/autenticação
 
