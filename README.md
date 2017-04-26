@@ -17,20 +17,21 @@ Desenvolver uma interface de api onde seja possível fazer inserções de vendas
 ### Endpoints
 
 #### Vendedores
-- Criar vendedor
+
+> Criar vendedor
 
 #### Retorno
 - Nome
 - Email
 
-- Listar todos os vendedores
+> Listar todos os vendedores
 
 #### Retorno
 - Nome
 - Email
 - Comissão
 
-- Lançar nova venda para um vendedor
+> Lançar nova venda para um vendedor
 
 #### Retorno
 - Nome
@@ -38,7 +39,7 @@ Desenvolver uma interface de api onde seja possível fazer inserções de vendas
 - Valor da venda
 - Comissão
 
-- Listar todas as vendas de um vendedor
+> Listar todas as vendas de um vendedor
 
 #### Retorno
 - Nome
