@@ -20,20 +20,20 @@ Desenvolver uma interface de api onde seja possível fazer inserções de vendas
 
 > Criar vendedor
 
-#### Retorno
+- retorno:
 - Nome
 - Email
 
 > Listar todos os vendedores
 
-#### Retorno
+- retorno:
 - Nome
 - Email
 - Comissão
 
 > Lançar nova venda para um vendedor
 
-#### Retorno
+- retorno:
 - Nome
 - Email
 - Valor da venda
@@ -41,7 +41,7 @@ Desenvolver uma interface de api onde seja possível fazer inserções de vendas
 
 > Listar todas as vendas de um vendedor
 
-#### Retorno
+- retorno:
 - Nome
 - Email
 - Valor da venda
