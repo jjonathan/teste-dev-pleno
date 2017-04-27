@@ -14,7 +14,7 @@
 
 ## Descrição do teste
 
-Desenvolver uma interface de api onde seja possível fazer inserções de vendas para vendedores e calcular a comissão destas vendas (a comissão será de 8.5% sobre o valor da venda)
+Desenvolver uma API para cadastro de vendas para vendedores e calcular a comissão destas vendas (a comissão será de 8.5% sobre o valor da venda)
 
 ### Endpoints
 
