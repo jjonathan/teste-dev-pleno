@@ -10,6 +10,8 @@
 - Fila
 - Cache
 
+---
+
 ## Descrição do teste
 
 Desenvolver uma interface de api onde seja possível fazer inserções de vendas para vendedores e calcular a comissão destas vendas (a comissão será de 8.5% sobre o valor da venda)
@@ -24,12 +26,16 @@ Todos os retornos devem ser em formato json
 - Nome
 - Email
 
+---
+
 > Listar todos os vendedores
 
 ##### retorno
 - Nome
 - Email
 - Comissão
+
+---
 
 > Lançar nova venda para um vendedor
 
@@ -39,6 +45,8 @@ Todos os retornos devem ser em formato json
 - Valor da venda
 - Comissão
 - Data da venda
+
+---
 
 > Listar todas as vendas de um vendedor
 
@@ -52,6 +60,7 @@ Todos os retornos devem ser em formato json
 
 Ao final de cada dia deve ser enviado um email com um relatório com a soma de todas as vendas efetuadas no dia.
 
+---
 
 > Não é necessário nenhuma forma de login/autenticação
 
