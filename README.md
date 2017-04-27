@@ -3,7 +3,7 @@
 ### Requisitos:
 - PHP
 - Banco de dados
-- Laravel
+- Laravel <3
 - Testes
 
 ### Diferenciais
@@ -15,6 +15,8 @@
 Desenvolver uma interface de api onde seja possível fazer inserções de vendas para vendedores e calcular a comissão destas vendas (a comissão será de 8.5% sobre o valor da venda)
 
 ### Endpoints
+
+> Todos os retornos devem ser em formato json
 
 #### Vendedores
 
@@ -38,6 +40,7 @@ Desenvolver uma interface de api onde seja possível fazer inserções de vendas
 - Email
 - Valor da venda
 - Comissão
+- Data da venda
 
 > Listar todas as vendas de um vendedor
 
@@ -46,12 +49,15 @@ Desenvolver uma interface de api onde seja possível fazer inserções de vendas
 - Email
 - Valor da venda
 - Comissão
+- Data da venda
 
+
+Ao final de cada dia deve ser enviado um email com um relatório com a soma de todas as vendas efetuadas no dia.
 
 
 > Não é necessário nenhuma forma de login/autenticação
 
-Não esqueça de testes unitários e/ou de integração.
+**Não esqueça de testes unitários e/ou de integração**
 
 ### Forma de de entrega:
 
