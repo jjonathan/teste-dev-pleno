@@ -4,11 +4,11 @@
 - PHP
 - Banco de dados
 - Laravel <3
-- Testes
+- Testes unitários e/ou de integração
 
 ### Diferenciais
-- Fila
-- Cache
+- Utilizar Fila
+- Utilizar Cache
 
 ---
 
