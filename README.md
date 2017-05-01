@@ -22,7 +22,12 @@ Todos os retornos devem ser em formato json
 
 > Criar vendedor
 
+##### Parâmetros
+- Nome
+- Email
+
 ##### retorno
+- ID
 - Nome
 - Email
 
@@ -31,6 +36,7 @@ Todos os retornos devem ser em formato json
 > Listar todos os vendedores
 
 ##### retorno
+- ID
 - Nome
 - Email
 - Comissão
@@ -39,7 +45,13 @@ Todos os retornos devem ser em formato json
 
 > Lançar nova venda para um vendedor
 
+
+##### Parâmetros
+- ID Vendedor
+- Valor da venda
+
 ##### retorno
+- ID
 - Nome
 - Email
 - Valor da venda
@@ -50,7 +62,11 @@ Todos os retornos devem ser em formato json
 
 > Listar todas as vendas de um vendedor
 
+##### Parâmetros
+- ID vendedor
+
 ##### retorno
+- ID
 - Nome
 - Email
 - Valor da venda
