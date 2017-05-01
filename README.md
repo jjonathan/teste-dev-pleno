@@ -26,7 +26,7 @@ Todos os retornos devem ser em formato json
 - Nome
 - Email
 
-##### retorno
+##### Retorno
 - ID
 - Nome
 - Email
@@ -35,7 +35,7 @@ Todos os retornos devem ser em formato json
 
 > Listar todos os vendedores
 
-##### retorno
+##### Retorno
 - ID
 - Nome
 - Email
@@ -50,7 +50,7 @@ Todos os retornos devem ser em formato json
 - ID Vendedor
 - Valor da venda
 
-##### retorno
+##### Retorno
 - ID
 - Nome
 - Email
@@ -65,7 +65,7 @@ Todos os retornos devem ser em formato json
 ##### Parâmetros
 - ID vendedor
 
-##### retorno
+##### Retorno
 - ID
 - Nome
 - Email
@@ -82,7 +82,7 @@ Ao final de cada dia deve ser enviado um email com um relatório com a soma de t
 
 **Não esqueça de testes unitários e/ou de integração**
 
-### Forma de de entrega:
+### Forma de entrega:
 
 Crie um fork deste repositório e após finalizado nos envie por email
 
