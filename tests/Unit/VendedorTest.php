@@ -46,7 +46,6 @@ class VendedorTest extends TestCase{
         $vendedor = [
             'nome'     => $nome,
             'email'    => $email,
-            'comissao' => 8.5
         ];
 
         DB::table('vendedores')->insert($vendedor);
@@ -56,13 +55,11 @@ class VendedorTest extends TestCase{
                 'id'       => 1,
                 'nome'     => 'Jonathan Machado',
                 'email'    => 'jonathan@email.com',
-                'comissao' => 8.5
             ],
             [
                 'id'       => 2,
                 'nome'     => 'Jose da Silva',
                 'email'    => 'jose@email.com',
-                'comissao' => 8.5
             ]
         ];
 
