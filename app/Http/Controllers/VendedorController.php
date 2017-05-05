@@ -49,8 +49,8 @@ class VendedorController extends Controller
     	$retorno['data'] 	= null;
     	$retorno['message'] = null;
 
-    	$nome  = (string) $this->request->get('nome');
-    	$email = (string) $this->request->get('email');
+    	$nome  = $this->request->get('nome');
+    	$email = $this->request->get('email');
 
         $regex_nome = "/(?=^.{2,255}$)^[A-Z][a-z]+(?:[ ][A-Z][a-z]+)*$/i";
 

@@ -51,19 +51,19 @@ class VendaController extends Controller
     	$retorno['data'] 	= null;
     	$retorno['message'] = null;
 
-    	$vendedor_id = (integer) $this->request->get('vendedor_id');
-    	$valor_venda = (float)  $this->request->get('valor_venda');
+    	$vendedor_id = $this->request->get('vendedor_id');
+    	$valor_venda = $this->request->get('valor_venda');
 
     	if ($venda == null) {
 
     		$retorno['message'] = "Venda inválida";
-    	} else if (!is_int($vendedor_id) || !is_float($valor_venda)) {
+    	} else if (!$vendedor_id || !$valor_venda) {
 
-    		if (!is_int($vendedor_id)) {
+    		if (!$vendedor_id) {
 
     			$retorno['message'] = "Vendedor inválido";
     		}
-    		else if (!is_float($valor_venda)) {
+    		else if ($valor_venda) {
 
     			$retorno['message'] = "Valor inválido";
     		}
@@ -79,19 +79,19 @@ class VendaController extends Controller
                 $retorno['message'] = "Vendedor não encontrado";
             } else {
 
-                $venda->vendedor_id = $vendedor_id;
-                $venda->valor_venda = (float) $valor_venda;
+                $venda->vendedor_id = (integer) $vendedor_id;
+                $venda->valor_venda = (float)   $valor_venda;
 
                 $config = Configuracao::first();
 
                 try {
                     $venda->save();
 	                $data = [
-	                	'id' => $venda->id,
-	                	'nome' => $vendedor->nome,
-	                	'email' => $vendedor->email,
-	                	'valor_venda' => $venda->valor_venda,
-	                	'comissao' => ($config->comissao * $venda->valor_venda) / 100
+	                	'id'          => $venda->id,
+	                	'nome'        => $vendedor->nome,
+	                	'email'       => $vendedor->email,
+	                	'valor_venda' => (float) $venda->valor_venda,
+	                	'comissao'    => (float) ($config->comissao * $venda->valor_venda) / 100
 	                ];
 	                $retorno['data'] = $data;
 
@@ -111,26 +111,43 @@ class VendaController extends Controller
      */
     public function lista(){
 
-        $vendedor_id = $this->request->get('vendedor_id');
-
         $jsonHelper = new JsonHelper();
-        $vendas = Venda::get(['id', 'vendedor_id', 'valor_venda']);
-        $data = [];
+        $vendedor_id = $this->request->get('vendedor_id');
+        $config = Configuracao::first();
 
-        foreach ($vendas as $key => $venda) {
-            $data[] = [
-                'id' => $venda->id,
-                'nome' => $venda->vendedor->nome,
-                'email' => $venda->vendedor->email,
-                'valor_venda' => $venda->valor_venda,
-                'comissao' => ($config->comissao * $venda->valor_venda) / 100,
-                'dt_venda' => date('Y-m-d', strtotime($venda->created_at))
-            ];
+        if (!$vendedor_id) {
+            
+            $jsonHelper->status = 'error';
+            $jsonHelper->message = 'Id do vendedor inválido';
+        }else{
+
+            $vendedor = Vendedor::find($vendedor_id);
+
+            if (!$vendedor) {
+                
+                $jsonHelper->status  = 'error';
+                $jsonHelper->message = 'Vendedor não encontrado';
+            }else{
+
+                $vendas = $vendedor->vendas;
+                $data   = [];
+
+                foreach ($vendas as $key => $venda) {
+                    $data[] = [
+                        'id' => $venda->id,
+                        'nome' => $venda->vendedor->nome,
+                        'email' => $venda->vendedor->email,
+                        'valor_venda' => $venda->valor_venda,
+                        'comissao' => ($config->comissao * $venda->valor_venda) / 100,
+                        'dt_venda' => date('Y-m-d', strtotime($venda->created_at))
+                    ];
+                }
+
+                $jsonHelper->data = $data;
+                $jsonHelper->status  = "ok";
+                $jsonHelper->message = "Requisição OK";
+            }
         }
-
-        $jsonHelper->status  = "ok";
-        $jsonHelper->message = "Requisição OK";
-        $jsonHelper->data    = $vendas;
 
         return response()->json($jsonHelper->toArray());
     }
