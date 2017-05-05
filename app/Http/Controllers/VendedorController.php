@@ -45,12 +45,12 @@ class VendedorController extends Controller
      */
     private function salvarVendedor(Vendedor $vendedor = null){
 
-    	$retorno = [];
+    	$retorno            = [];
     	$retorno['data'] 	= null;
     	$retorno['message'] = null;
 
-    	$nome = $this->request->get('nome');
-    	$email = $this->request->get('email');
+    	$nome  = (string) $this->request->get('nome');
+    	$email = (string) $this->request->get('email');
 
         $regex_nome = "/(?=^.{2,255}$)^[A-Z][a-z]+(?:[ ][A-Z][a-z]+)*$/i";
 
@@ -75,17 +75,19 @@ class VendedorController extends Controller
 
             $emailInvalido = Vendedor::where('email', '=', $email)->first();
             if ($emailInvalido) {
+
                 $retorno['message'] = "E-mail já cadastrado";
             } else {
 
                 $vendedor->nome     = $nome;
                 $vendedor->email    = $email;
-                $vendedor->comissao = 8.5;
 
                 try {
+
                     $vendedor->save();
                     $retorno['data'] = $vendedor;
                 } catch (\Exception $e) {
+                    
                     $retorno['message'] = "Erro ao salvar";
                     /* Caso deva mostrar o real motivo do erro, descomentar a linha abaixo */
                     /* $retorno['message'] = $e->getMessage(); */
