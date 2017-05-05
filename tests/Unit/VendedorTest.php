@@ -6,6 +6,7 @@ use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Models\Vendedor;
+use DB;
 
 class VendedorTest extends TestCase{
 
@@ -13,8 +14,8 @@ class VendedorTest extends TestCase{
 
     	Vendedor::truncate();
 
-    	$nome  = str_random(10);
-    	$email = str_random(10).'@gmail.com';
+    	$nome  = 'Jonathan Machado';
+    	$email = 'jonathan@email.com';
 
     	$send = [
     		'nome'  => $nome,
@@ -37,22 +38,44 @@ class VendedorTest extends TestCase{
     		->assertJson($return);
     }
 
-    // public function testIfListVendedores(){
+    public function testIfListVendedores(){
 
-    // 	$nome  = str_random(10);
-    // 	$email = str_random(10).'@gmail.com';
+    	$nome  = 'Jose da Silva';
+    	$email = 'jose@email.com';
 
-    // 	$vendedor = [
-    // 		'nome'     => $nome,
-    // 		'email'    => $email,
-    // 		'comissao' => 8.5
-    // 	];
+        $vendedor = [
+            'nome'     => $nome,
+            'email'    => $email,
+            'comissao' => 8.5
+        ];
 
-    // 	$vendedor = new Vendedor($vendedor);
-    // 	$vendedor->save();
+        DB::table('vendedores')->insert($vendedor);
 
-    // 	$response
-    // 		->assertStatus(200)
-    // 		->assertJson($return);
-    // }
+        $vendedores = [
+            [
+                'id'       => 1,
+                'nome'     => 'Jonathan Machado',
+                'email'    => 'jonathan@email.com',
+                'comissao' => 8.5
+            ],
+            [
+                'id'       => 2,
+                'nome'     => 'Jose da Silva',
+                'email'    => 'jose@email.com',
+                'comissao' => 8.5
+            ]
+        ];
+
+        $return = [
+            'status'  => 'ok',
+            'message' => 'Requisição OK',
+            'data'    => $vendedores
+        ];
+
+        $response = $this->json('GET', '/vendedor/lista');
+
+    	$response
+    		->assertStatus(200)
+    		->assertJson($return);
+    }
 }

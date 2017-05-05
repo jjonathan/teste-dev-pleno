@@ -52,18 +52,23 @@ class VendedorController extends Controller
     	$nome = $this->request->get('nome');
     	$email = $this->request->get('email');
 
+        $regex_nome = "/(?=^.{2,255}$)^[A-Z][a-z]+(?:[ ][A-Z][a-z]+)*$/i";
+
     	if ($vendedor == null) {
 
     		$retorno['message'] = "Vendedor inválido";
-    	} else if (!preg_match("/^([a-zA-Z])\w{3,}$/i", $nome) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    	} else if (!preg_match($regex_nome, $nome) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
 
-    		if (!$nome) {
+    		if (!preg_match($regex_nome, $nome) ) {
+
     			$retorno['message'] = "Nome inválido";
     		}
-    		else if (!$email || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    		else if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+
     			$retorno['message'] = "E-mail inválido";
     		}
     		else{
+
     			$retorno['message'] = "Nome e/ou E-mail inválidos";
     		}
     	} else {
@@ -90,12 +95,21 @@ class VendedorController extends Controller
         return $retorno;
     }
 
+    /**
+     * Lista todos os vendedores
+     * @return json Retorna um objeto em formato json, onde o atributo data são os vendedores
+     */
     public function lista(){
 
-        $vendedores = Vendedor::all()
-            ->select(['id', 'nome', 'email', 'comissao']);
+        $jsonHelper = new JsonHelper();
 
-        print_r($vendedores);exit;
+        $vendedores = Vendedor::get(['id', 'nome', 'email', 'comissao'])
+            ->toArray();
 
+        $jsonHelper->status  = "ok";
+        $jsonHelper->message = "Requisição OK";
+        $jsonHelper->data    = $vendedores;
+
+        return response()->json($jsonHelper->toArray());
     }
 }
