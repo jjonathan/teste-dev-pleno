@@ -18,10 +18,9 @@ Route::get('/', function () {
 Route::prefix('vendedor')->group(function(){
 	Route::post('novo',  'VendedorController@novo');
 	Route::get('lista',  'VendedorController@lista');
-	Route::get('vendas', 'VendedorController@vendas');
 });
 
-Route::prefix('vendas')->group(function(){
-	Route::get('lista', 'VendaController@lista');
+Route::prefix('venda')->group(function(){
 	Route::post('nova', 'VendaController@nova');
+	Route::get('lista', 'VendaController@lista');
 });

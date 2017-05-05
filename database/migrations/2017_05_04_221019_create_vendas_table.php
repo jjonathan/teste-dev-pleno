@@ -17,7 +17,6 @@ class CreateVendasTable extends Migration
             $table->increments('id');
             $table->integer('vendedor_id');
             $table->float('valor_venda');
-            $table->dateTime('dt_venda');
             $table->timestamps();
         });
     }

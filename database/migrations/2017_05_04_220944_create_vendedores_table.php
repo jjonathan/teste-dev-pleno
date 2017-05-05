@@ -17,7 +17,6 @@ class CreateVendedoresTable extends Migration
             $table->increments('id');
             $table->string('nome');
             $table->string('email')->unique();
-            $table->float('comissao');
             $table->timestamps();
         });
     }
