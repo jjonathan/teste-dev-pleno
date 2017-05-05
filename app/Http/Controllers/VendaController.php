@@ -134,12 +134,12 @@ class VendaController extends Controller
 
                 foreach ($vendas as $key => $venda) {
                     $data[] = [
-                        'id' => $venda->id,
-                        'nome' => $venda->vendedor->nome,
-                        'email' => $venda->vendedor->email,
-                        'valor_venda' => $venda->valor_venda,
-                        'comissao' => ($config->comissao * $venda->valor_venda) / 100,
-                        'dt_venda' => date('Y-m-d', strtotime($venda->created_at))
+                        'id'          => $venda->id,
+                        'nome'        => $venda->vendedor->nome,
+                        'email'       => $venda->vendedor->email,
+                        'valor_venda' => (float) number_format($venda->valor_venda, 2),
+                        'comissao'    => (float) number_format(($config->comissao * $venda->valor_venda) / 100, 2),
+                        'dt_venda'    => date('Y-m-d', strtotime($venda->created_at))
                     ];
                 }
 

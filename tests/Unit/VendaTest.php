@@ -42,41 +42,38 @@ class VendaTest extends TestCase
     		->assertJson($return);
     }
 
-    // public function testIfListVendedores(){
+    public function testIfListVendedores(){
 
-    // 	$nome  = 'Jose da Silva';
-    // 	$email = 'jose@email.com';
+        $config = Configuracao::first();
 
-    //     $vendedor = [
-    //         'nome'     => $nome,
-    //         'email'    => $email,
-    //     ];
+        $send = [
+            'vendedor_id' => 1
+        ];
 
-    //     DB::table('vendedores')->insert($vendedor);
+        $valor_venda = 499.9;
+        $comissao    = $config->comissao;
 
-    //     $vendedores = [
-    //         [
-    //             'id'       => 1,
-    //             'nome'     => 'Jonathan Machado',
-    //             'email'    => 'jonathan@email.com',
-    //         ],
-    //         [
-    //             'id'       => 2,
-    //             'nome'     => 'Jose da Silva',
-    //             'email'    => 'jose@email.com',
-    //         ]
-    //     ];
+        $venda = [
+            [
+                "id"          => 1,
+                "nome"        => "Jonathan Machado",
+                "email"       => "jonathan@email.com",
+                "valor_venda" => (float) $valor_venda,
+                "comissao"    => (float) number_format(($comissao * $valor_venda) / 100, 2),
+                "dt_venda"    => date('Y-m-d')
+            ]
+        ];
 
-    //     $return = [
-    //         'status'  => 'ok',
-    //         'message' => 'Requisição OK',
-    //         'data'    => $vendedores
-    //     ];
+        $return = [
+            'status'  => 'ok',
+            'message' => 'Requisição OK',
+            'data'    => $venda
+        ];
 
-    //     $response = $this->json('GET', '/vendedor/lista');
+        $response = $this->json('GET', '/venda/lista', $send);
 
-    // 	$response
-    // 		->assertStatus(200)
-    // 		->assertJson($return);
-    // }
+    	$response
+    		->assertStatus(200)
+    		->assertJson($return);
+    }
 }
