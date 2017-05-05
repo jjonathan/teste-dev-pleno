@@ -12,16 +12,16 @@ class DefaultConfig extends Seeder
     public function run()
     {
 
-    	$config = DB::table('config')->first();
+    	$config = DB::table('configuracao')->first();
     	if ($config) {
-    		DB::table('config')
+    		DB::table('configuracao')
     			->where('id', 1)
     			->update([
     				'comissao'   => 8.5,
     				'updated_at' => date('YmdHis')
     			]);
     	}else{
-    		DB::table('config')->insert([
+    		DB::table('configuracao')->insert([
 	        	'comissao' => 8.5,
 	        	'created_at' => date('YmdHis'),
 	        	'updated_at' => date('YmdHis')
