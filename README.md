@@ -7,4 +7,5 @@
 - Rodar o comando `php artisan db:seed` para criar dados padrões no banco de dados (na tabela config fica a comissão de 8.5%)
 - Rodar o comando `php artisan key:generate` para gerar a chave da aplicação;
 - Rodar o comando `php artisan serve` para rodar o servidor interno;
+- Rodar o comando `vendor\bin\phpunit` na pasta root do projeto para rodar os testes usando PHPUNIT;
 - Seguir o arquivo [COMO_USAR.html](/COMO_USAR.html) para saber como usar cada uma das rotas.
