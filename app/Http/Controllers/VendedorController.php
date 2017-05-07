@@ -114,7 +114,7 @@ class VendedorController extends Controller
         $comissao = $config ? $config->comissao : 8.5;
 
         foreach ($vendedores as $key => $vendedor) {
-            $total_venda = Venda::where('vendedor_id', '=', $vendedor['id'])->sum('valor_venda');
+            $total_venda = (integer) Venda::where('vendedor_id', '=', $vendedor['id'])->sum('valor_venda');
             $vendedores[$key]['comissao'] = $total_venda > 0 ? ($comissao * $total_venda) / 100 : 0;
             $vendedores[$key]['comissao'] = number_format($vendedores[$key]['comissao'], 2);
         }

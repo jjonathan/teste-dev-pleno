@@ -63,7 +63,7 @@ class VendaController extends Controller
 
     			$retorno['message'] = "Vendedor inválido";
     		}
-    		else if ($valor_venda) {
+    		else if (!$valor_venda) {
 
     			$retorno['message'] = "Valor inválido";
     		}
