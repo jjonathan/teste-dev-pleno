@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Vendedor;
+use App\Models\Venda;
+use App\Models\Configuracao;
 use App\Http\Controllers\Helpers\JsonHelper;
 
 class VendedorController extends Controller
@@ -105,8 +107,17 @@ class VendedorController extends Controller
 
         $jsonHelper = new JsonHelper();
 
-        $vendedores = Vendedor::get(['id', 'nome', 'email', 'comissao'])
+        $vendedores = Vendedor::get(['id', 'nome', 'email'])
             ->toArray();
+
+        $config = Configuracao::first();
+        $comissao = $config ? $config->comissao : 8.5;
+
+        foreach ($vendedores as $key => $vendedor) {
+            $total_venda = Venda::where('vendedor_id', '=', $vendedor['id'])->sum('valor_venda');
+            $vendedores[$key]['comissao'] = $total_venda > 0 ? ($comissao * $total_venda) / 100 : 0;
+            $vendedores[$key]['comissao'] = number_format($vendedores[$key]['comissao'], 2);
+        }
 
         $jsonHelper->status  = "ok";
         $jsonHelper->message = "Requisição OK";
