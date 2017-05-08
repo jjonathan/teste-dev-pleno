@@ -11,6 +11,6 @@ class Vendedor extends Model
     protected $guarded = [];
 
     public function vendas(){
-    	return $this->hasMany('App\Models\Venda', 'id', 'vendedor_id');
+    	return $this->hasMany('App\Models\Venda');
     }
 }
