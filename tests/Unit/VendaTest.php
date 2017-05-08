@@ -29,7 +29,7 @@ class VendaTest extends TestCase
     		'data'    => [
     			'id' 		  => 1,
 			    'nome' 		  => 'Jonathan Machado',
-			    'email' 	  => 'jonathan@email.com',
+			    'email' 	  => 'jonathan.mmachado@outlook.com',
 			    'valor_venda' => $valor_venda,
 			    'comissao' 	  => ($config->comissao * $valor_venda) / 100
     		]
@@ -57,7 +57,7 @@ class VendaTest extends TestCase
             [
                 "id"          => 1,
                 "nome"        => "Jonathan Machado",
-                "email"       => "jonathan@email.com",
+                "email"       => "jonathan.mmachado@outlook.com",
                 "valor_venda" => (float) $valor_venda,
                 "comissao"    => (float) number_format(($comissao * $valor_venda) / 100, 2),
                 "dt_venda"    => date('Y-m-d')

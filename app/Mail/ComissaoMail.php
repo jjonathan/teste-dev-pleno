@@ -32,7 +32,7 @@ class ComissaoMail extends Mailable
     /**
      * Criar uma nova instancia de ComissaoMail
      */
-    public function __construct(string $nome, float $valor_comissao, array $vendas)
+    public function __construct($nome, $valor_comissao, $vendas)
     {
         $this->nome           = $nome;
         $this->valor_comissao = $valor_comissao;

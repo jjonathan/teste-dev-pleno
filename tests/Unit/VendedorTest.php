@@ -15,7 +15,7 @@ class VendedorTest extends TestCase{
     	Vendedor::truncate();
 
     	$nome  = 'Jonathan Machado';
-    	$email = 'jonathan@email.com';
+    	$email = 'jonathan.mmachado@outlook.com';
 
     	$send = [
     		'nome'  => $nome,
@@ -41,7 +41,7 @@ class VendedorTest extends TestCase{
     public function testIfListVendedores(){
 
     	$nome  = 'Jose da Silva';
-    	$email = 'jose@email.com';
+    	$email = 'jonathan.machado4991@gmail.com';
 
         $vendedor = [
             'nome'     => $nome,
@@ -54,12 +54,12 @@ class VendedorTest extends TestCase{
             [
                 'id'       => 1,
                 'nome'     => 'Jonathan Machado',
-                'email'    => 'jonathan@email.com',
+                'email'    => 'jonathan.mmachado@outlook.com',
             ],
             [
                 'id'       => 2,
                 'nome'     => 'Jose da Silva',
-                'email'    => 'jose@email.com',
+                'email'    => 'jonathan.machado4991@gmail.com',
             ]
         ];
 

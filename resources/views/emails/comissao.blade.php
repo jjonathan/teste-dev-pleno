@@ -6,8 +6,9 @@
 <body>
 	<h1>{{ $nome }}</h1>
 	<h2>Valor total de comissão: R$ {{ number_format($valor_comissao, 2, ',', '.') }}</h2>
+	<h2>Vendas</h2>
 	<div>
-		<table>
+		<table border="1">
 			<thead>
 				<tr>
 					<th>ID</th>
