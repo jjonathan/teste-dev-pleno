@@ -8,4 +8,4 @@
 - Rodar o comando `php artisan key:generate` para gerar a chave da aplicação;
 - Rodar o comando `php artisan serve` para rodar o servidor interno;
 - Rodar o comando `vendor\bin\phpunit` na pasta root do projeto para rodar os testes usando PHPUNIT;
-- Seguir o arquivo [COMO_USAR.html](/resources/views/como_usar.php) para saber como usar cada uma das rotas.
+- Seguir o arquivo [COMO_USAR.html](/como_usar.php) para saber como usar cada uma das rotas.
