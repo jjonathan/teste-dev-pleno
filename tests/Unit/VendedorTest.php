@@ -10,12 +10,9 @@ use DB;
 
 class VendedorTest extends TestCase{
 
-    public function testIfVendedorIsSaved(){
-
-    	Vendedor::truncate();
-
-    	$nome  = 'Jonathan Machado';
-    	$email = 'jonathan.mmachado@outlook.com';
+    public function testeSeSalvaVendedor(){
+    	$nome  = str_random(20);
+    	$email = str_random(15) . '@gmail.com';
 
     	$send = [
     		'nome'  => $nome,
@@ -38,35 +35,28 @@ class VendedorTest extends TestCase{
     		->assertJson($return);
     }
 
-    public function testIfListVendedores(){
+    public function testeSeListaVendedores(){
 
-    	$nome  = 'Jose da Silva';
-    	$email = 'jonathan.machado4991@gmail.com';
+    	$novoVendedor = new Vendedor([
+            'nome'  => str_random(20),
+            'email' => str_random(10) . '@gmail.com'
+            ]);
+        $novoVendedor->save();
 
-        $vendedor = [
-            'nome'     => $nome,
-            'email'    => $email,
-        ];
-
-        DB::table('vendedores')->insert($vendedor);
-
-        $vendedores = [
-            [
-                'id'       => 1,
-                'nome'     => 'Jonathan Machado',
-                'email'    => 'jonathan.mmachado@outlook.com',
-            ],
-            [
-                'id'       => 2,
-                'nome'     => 'Jose da Silva',
-                'email'    => 'jonathan.machado4991@gmail.com',
-            ]
-        ];
+        $vendedores    = Vendedor::all();
+        $vendedoresArr = [];
+        foreach ($vendedores as $key => $vendedor) {
+            $vendedoresArr[] = [
+                'id'    => $vendedor->id,
+                'nome'  => $vendedor->nome,
+                'email' => $vendedor->email
+            ];
+        }
 
         $return = [
             'status'  => 'ok',
             'message' => 'Requisição OK',
-            'data'    => $vendedores
+            'data'    => $vendedoresArr
         ];
 
         $response = $this->json('GET', '/vendedor/lista');

@@ -6,17 +6,25 @@ use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Models\Venda;
-use App\Models\Configuracao;
+use App\Models\Vendedor;
+use App\Http\Controllers\Helpers\InputHelper;
 
 class VendaTest extends TestCase
 {
-    public function testIfVendaIsSave(){
 
-    	Venda::truncate();
+    public function testeSeSalvaVenda(){
+        $novoVendedor = new Vendedor([
+            'nome'  => str_random(20),
+            'email' => str_random(10) . '@gmail.com'
+            ]);
+        $novoVendedor->save();
+        $novoVendedor = Vendedor::orderBy('id', 'desc')->first();
 
-    	$vendedor_id = 1;
-    	$valor_venda = 499.90;
-    	$config      = Configuracao::first();
+    	$valor_venda    = InputHelper::randomFloat(100, 1000);
+        $valor_comissao = InputHelper::valorComissao($valor_venda);
+        $vendedor_id    = $novoVendedor->id;
+        $vendedor_nome  = $novoVendedor->nome;
+        $vendedor_email = $novoVendedor->email;
 
     	$send = [
     		'vendedor_id' => $vendedor_id,
@@ -24,15 +32,14 @@ class VendaTest extends TestCase
     	];
 
     	$return = [
+            'data'    => [
+                'nome'        => $vendedor_nome,
+                'email'       => $vendedor_email,
+                'valor_venda' => (float) number_format($valor_venda, 2),
+                'comissao'    => (float) number_format($valor_comissao, 2)
+            ],
     		'status'  => 'ok',
-    		'message' => 'Venda salva!',
-    		'data'    => [
-    			'id' 		  => 1,
-			    'nome' 		  => 'Jonathan Machado',
-			    'email' 	  => 'jonathan.mmachado@outlook.com',
-			    'valor_venda' => $valor_venda,
-			    'comissao' 	  => ($config->comissao * $valor_venda) / 100
-    		]
+    		'message' => 'Venda salva!'
     	];
 
     	$response = $this->json('POST', '/venda/nova', $send);
@@ -42,24 +49,37 @@ class VendaTest extends TestCase
     		->assertJson($return);
     }
 
-    public function testIfListVendedores(){
+    public function testeSeListaVendas(){
+        $novoVendedor = new Vendedor([
+            'nome'  => str_random(20),
+            'email' => str_random(10) . '@gmail.com'
+            ]);
+        $novoVendedor->save();
+        $novoVendedor = Vendedor::orderBy('id', 'desc')->first();
 
-        $config = Configuracao::first();
+        $valor_venda    = InputHelper::randomFloat(100, 1000);
+        $valor_comissao = InputHelper::valorComissao($valor_venda);
+        $vendedor_id    = $novoVendedor->id;
+        $vendedor_nome  = $novoVendedor->nome;
+        $vendedor_email = $novoVendedor->email;
+
+        $venda = new Venda([
+            'vendedor_id' => $vendedor_id,
+            'valor_venda' => $valor_venda
+        ]);
+        $venda->save();
 
         $send = [
-            'vendedor_id' => 1
+            'vendedor_id' => $vendedor_id
         ];
 
-        $valor_venda = 499.9;
-        $comissao    = $config->comissao;
-
-        $venda = [
+        $vendaArr = [
             [
-                "id"          => 1,
-                "nome"        => "Jonathan Machado",
-                "email"       => "jonathan.mmachado@outlook.com",
-                "valor_venda" => (float) $valor_venda,
-                "comissao"    => (float) number_format(($comissao * $valor_venda) / 100, 2),
+                "id"          => $venda->id,
+                "nome"        => $vendedor_nome,
+                "email"       => $vendedor_email,
+                "valor_venda" => (float) number_format($valor_venda, 2),
+                "comissao"    => (float) number_format($valor_comissao, 2),
                 "dt_venda"    => date('Y-m-d')
             ]
         ];
@@ -67,7 +87,7 @@ class VendaTest extends TestCase
         $return = [
             'status'  => 'ok',
             'message' => 'Requisição OK',
-            'data'    => $venda
+            'data'    => $vendaArr
         ];
 
         $response = $this->json('GET', '/venda/lista', $send);

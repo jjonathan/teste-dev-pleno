@@ -7,6 +7,7 @@ use App\Models\Vendedor;
 use App\Models\Venda;
 use App\Models\Configuracao;
 use App\Http\Controllers\Helpers\JsonHelper;
+use App\Http\Controllers\Helpers\InputHelper;
 
 class VendedorController extends Controller
 {
@@ -27,8 +28,12 @@ class VendedorController extends Controller
     	$jsonHelper = new JsonHelper();
 
     	if ($vendedorSalvo['data'] != null) {
+            $data = [
+                'nome'  => $vendedorSalvo['data']->nome,
+                'email' => $vendedorSalvo['data']->email
+            ];
 
-    		$jsonHelper->data    = $vendedorSalvo['data'];
+    		$jsonHelper->data    = $data;
     		$jsonHelper->status  = 'ok';
     		$jsonHelper->message = 'Vendedor salvo!';
     	}else{
@@ -54,14 +59,12 @@ class VendedorController extends Controller
     	$nome  = $this->request->get('nome');
     	$email = $this->request->get('email');
 
-        $regex_nome = "/(?=^.{2,255}$)^[A-Z][a-z]+(?:[ ][A-Z][a-z]+)*$/i";
-
     	if ($vendedor == null) {
 
     		$retorno['message'] = "Vendedor inválido";
-    	} else if (!preg_match($regex_nome, $nome) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    	} else if (!$nome || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
 
-    		if (!preg_match($regex_nome, $nome) ) {
+    		if (!$nome ) {
 
     			$retorno['message'] = "Nome inválido";
     		}
@@ -115,7 +118,7 @@ class VendedorController extends Controller
 
         foreach ($vendedores as $key => $vendedor) {
             $total_venda = (integer) Venda::where('vendedor_id', '=', $vendedor['id'])->sum('valor_venda');
-            $vendedores[$key]['comissao'] = $total_venda > 0 ? ($comissao * $total_venda) / 100 : 0;
+            $vendedores[$key]['comissao'] = InputHelper::valorComissao($total_venda);
             $vendedores[$key]['comissao'] = number_format($vendedores[$key]['comissao'], 2);
         }
 

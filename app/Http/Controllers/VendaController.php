@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Helpers\JsonHelper;
+use App\Http\Controllers\Helpers\InputHelper;
 use App\Models\Configuracao;
 use App\Models\Vendedor;
 use App\Models\Venda;
@@ -25,16 +26,12 @@ class VendaController extends Controller
     	$venda      = new Venda();
     	$vendaSalva = $this->salvarVenda($venda);
     	$jsonHelper = new JsonHelper();
-
+        $jsonHelper->status  = 'error';
+        $jsonHelper->message = $vendaSalva['message'];
     	if ($vendaSalva['data'] != null) {
-
     		$jsonHelper->data    = $vendaSalva['data'];
     		$jsonHelper->status  = 'ok';
     		$jsonHelper->message = 'Venda salva!';
-    	}else{
-
-    		$jsonHelper->status  = 'error';
-    		$jsonHelper->message = $vendaSalva['message'];
     	}
 
     	return response()->json($jsonHelper->toArray());
@@ -55,52 +52,40 @@ class VendaController extends Controller
     	$valor_venda = $this->request->get('valor_venda');
 
     	if ($venda == null) {
-
     		$retorno['message'] = "Venda inválida";
-    	} else if (!$vendedor_id || !$valor_venda) {
+            return $retorno;
+    	} 
 
-    		if (!$vendedor_id) {
+        if (!$vendedor_id || !$valor_venda) {
+            $retorno['message'] = "Vendedor e/ou valor inválidos";
+            return $retorno;
+        }
 
-    			$retorno['message'] = "Vendedor inválido";
-    		}
-    		else if (!$valor_venda) {
+        $vendedor = Vendedor::find($vendedor_id);
+        if (!$vendedor) {
+            $retorno['message'] = "Vendedor não encontrado";
+            return $retorno;
+        }
 
-    			$retorno['message'] = "Valor inválido";
-    		}
-    		else{
+        $venda->vendedor_id = (integer) $vendedor_id;
+        $venda->valor_venda = (float)   $valor_venda;
 
-    			$retorno['message'] = "Vendedor e/ou valor inválidos";
-    		}
-    	} else {
+        $valor_comissao = InputHelper::valorComissao($valor_venda);
 
-            $vendedor = Vendedor::find($vendedor_id);
-            if (!$vendedor) {
+        try {
+            $venda->save();
+            $data = [
+                'id'          => $venda->id,
+                'nome'        => $vendedor->nome,
+                'email'       => $vendedor->email,
+                'valor_venda' => (float) number_format($venda->valor_venda, 2),
+                'comissao'    => (float) number_format($valor_comissao, 2)
+            ];
+            $retorno['data'] = $data;
 
-                $retorno['message'] = "Vendedor não encontrado";
-            } else {
-
-                $venda->vendedor_id = (integer) $vendedor_id;
-                $venda->valor_venda = (float)   $valor_venda;
-
-                $config = Configuracao::first();
-
-                try {
-                    $venda->save();
-	                $data = [
-	                	'id'          => $venda->id,
-	                	'nome'        => $vendedor->nome,
-	                	'email'       => $vendedor->email,
-	                	'valor_venda' => (float) $venda->valor_venda,
-	                	'comissao'    => (float) ($config->comissao * $venda->valor_venda) / 100
-	                ];
-	                $retorno['data'] = $data;
-
-                } catch (\Exception $e) {
-                    $retorno['message'] = "Erro ao salvar";
-                    /* Caso deva mostrar o real motivo do erro, descomentar a linha abaixo */
-                    /* $retorno['message'] = $e->getMessage(); */
-                }
-            }
+        } catch (\Exception $e) {
+            $retorno['message'] = "Erro ao salvar";
+            $retorno['message'] = $e->getMessage(); 
         }
         return $retorno;
     }
@@ -133,12 +118,13 @@ class VendaController extends Controller
                 $data   = [];
 
                 foreach ($vendas as $key => $venda) {
+                    $valor_comissao = InputHelper::valorComissao($venda->valor_venda);
                     $data[] = [
                         'id'          => $venda->id,
                         'nome'        => $venda->vendedor->nome,
                         'email'       => $venda->vendedor->email,
                         'valor_venda' => (float) number_format($venda->valor_venda, 2),
-                        'comissao'    => (float) number_format(($config->comissao * $venda->valor_venda) / 100, 2),
+                        'comissao'    => (float) number_format($valor_comissao, 2),
                         'dt_venda'    => date('Y-m-d', strtotime($venda->created_at))
                     ];
                 }

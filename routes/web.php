@@ -15,6 +15,8 @@ Route::get('/', function () {
     return view('como_usar');
 });
 
+Route::get('email/comissao', 'ComissaoController@sendEmail');
+
 Route::prefix('vendedor')->group(function(){
 	Route::post('novo',  'VendedorController@novo');
 	Route::get('lista',  'VendedorController@lista');
